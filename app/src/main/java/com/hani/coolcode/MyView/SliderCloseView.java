@@ -80,12 +80,11 @@ public class SliderCloseView extends FrameLayout {
         mSliderListener = listener;
     }
 
+    public void addViewToLayout(View view, int screenWidth){
 
-    public void addViewToLayout(View page,  HashMap<String,Object> params, int screenWidth){
+        if(view != null){
 
-        if(page != null){
-
-            mSliderView = page;
+            mSliderView = view;
             LayoutParams frParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             this.addView(mSliderView,frParams);
 
@@ -114,18 +113,15 @@ public class SliderCloseView extends FrameLayout {
         }
 
     }
-
-    public void hiddenSliderPage(){
+    public void hiddenSliderView(){
         mIsToHiddlenPage = true;
         removeViewFromLayout();
-
 
     }
 
     public boolean isSliderViewVisible(){
         return mSliderView != null && mIsSliderShowing;
     }
-
 
 
     @Override
@@ -207,7 +203,6 @@ public class SliderCloseView extends FrameLayout {
                     }
                 }
 
-
                 if(mSliderListener != null){
                     mSliderListener.onProgress((int) diffX,diffX * 1.0f  / getWidth(),mSliderView);
                 }
@@ -245,7 +240,6 @@ public class SliderCloseView extends FrameLayout {
                     }
 
                 }
-
 
                 // 根据手指释放时的位置决定回弹还是关闭
                 float x = getMotionEventX(event);
