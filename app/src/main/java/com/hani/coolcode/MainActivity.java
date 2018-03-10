@@ -29,14 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void addInnerView(){
 
-        View view = LayoutInflater.from(this).inflate(R.layout.inner_view,null);
-        mTvInner = view.findViewById(R.id.tv_inner);
-        mTvInner.setOnClickListener(this);
-        mSliderView.addViewToLayout(view,CommonUtil.getScreenWidth());
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -45,6 +38,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         super.onBackPressed();
+    }
+
+    private void addInnerView(){
+
+        View secondView = LayoutInflater.from(this).inflate(R.layout.inner_view,null);
+        mTvInner = secondView.findViewById(R.id.tv_inner);
+        mTvInner.setOnClickListener(this);
+        mSliderView.addViewToLayout(secondView,CommonUtil.getScreenWidth());
+
     }
 
     @Override

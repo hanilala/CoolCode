@@ -98,8 +98,8 @@ public class SliderCloseView extends FrameLayout {
     public void clearView(){
 
         if(mSliderView != null){
-            mSliderView = null;
             removeView(mSliderView);
+            mSliderView = null;
 
         }
     }
