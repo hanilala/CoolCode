@@ -433,8 +433,11 @@ public class SliderCloseView extends FrameLayout {
 
 
     public interface OnSliderListener{
+        //判断打开的进度
         void onProgress(int current, float progress,View view);
+        //页面关闭
         void onSliderHidden();
+        //页面打开
         void onSliderShow(View  page);
     }
 }
