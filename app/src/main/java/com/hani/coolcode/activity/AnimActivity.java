@@ -1,8 +1,10 @@
 package com.hani.coolcode.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class AnimActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView mTvPlay;
     private AnimationView mAnimView;
+    private static final String TAG = "AnimActivity";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,17 @@ public class AnimActivity extends AppCompatActivity implements View.OnClickListe
 
         mAnimView = (AnimationView) findViewById(R.id.anim);
         mAnimView.setData(getAnimationData());
+        mAnimView.setAnimCallBack(new AnimationView.AnimCallBack() {
+            @Override
+            public void onAnimChange(int position, Bitmap bitmap) {
+                Log.w(TAG,"position: "+position);
+            }
+
+            @Override
+            public void onAnimEnd() {
+                Log.w(TAG,"onAnimEnd");
+            }
+        });
     }
 
     private ArrayList<AnimationView.AnimData> getAnimationData()

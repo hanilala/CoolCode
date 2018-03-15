@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.hani.textproject.blog.AnimationView
+    <com.hani.coolcode.MyView.AnimationView
         android:id="@+id/anim"
         android:layout_width="50dp"
         android:layout_margin="50dp"

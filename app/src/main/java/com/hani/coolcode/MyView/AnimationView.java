@@ -197,6 +197,9 @@ public class AnimationView extends View implements Handler.Callback {
             AnimData animData = mAnimDataList.get(mCurAnimPos);
             mCurShowBmp = ImageUtil.getBitmap(getContext(),animData.filePath,mWidth,mHeight);
             invalidate();
+            if (mListener != null ){
+                mListener.onAnimChange(mCurAnimPos,mCurShowBmp);
+            }
             checkIsPlayNext();
         }
     }
