@@ -63,7 +63,6 @@ public class AnimActivity extends AppCompatActivity implements View.OnClickListe
                 fileName += "0";
             }
             resId = getResources().getIdentifier(fileName + i, "drawable", getPackageName());
-//            data = new AnimationDialog.AnimFrameData(resId, 100, false);
             data = new AnimationView.AnimData();
             data.filePath = resId;
             datas.add(data);
@@ -85,7 +84,6 @@ public class AnimActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void playFrameAnimation(){
-
         mIvAnim.setImageResource(R.drawable.loading);
         mAnimDrawable = (AnimationDrawable) mIvAnim.getDrawable();
         mAnimDrawable.start();
@@ -95,7 +93,7 @@ public class AnimActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_play:{
-                playFrameAnimation();
+//                playFrameAnimation();
                 mAnimView.start();
                 break;
             }

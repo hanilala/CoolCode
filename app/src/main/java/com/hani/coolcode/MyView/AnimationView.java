@@ -206,14 +206,6 @@ public class AnimationView extends View implements Handler.Callback {
 
     private void playNext(final int curAnimPosition ){
 
-        /*mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AnimData data = mAnimDataList.get(curAnimPosition);
-                mProcessThread.processData(data);
-            }
-        }, mAnimTime);*/
-
         Message msg = Message.obtain();
         msg.what = PROCESS_DELAY;
         msg.arg1 = curAnimPosition;
@@ -268,10 +260,9 @@ public class AnimationView extends View implements Handler.Callback {
 
         }
     }
-
     @Override
     public boolean handleMessage(Message msg) {
-
+        //此 handleMessage 在主线程被调用
         switch (msg.what){
             case PROCESS_ANIM_FINISH:{
 
@@ -300,7 +291,6 @@ public class AnimationView extends View implements Handler.Callback {
         }
         return true;
     }
-
     private void checkIsPlayNext() {
         mCurAnimPos ++;
         if ( mCurAnimPos >= mAnimDataList.size() ){
@@ -316,7 +306,6 @@ public class AnimationView extends View implements Handler.Callback {
             playNext(mCurAnimPos);
         }
     }
-
     private AnimCallBack mListener;
     public void setAnimCallBack(AnimCallBack callBack){
         mListener = callBack;
@@ -330,10 +319,8 @@ public class AnimationView extends View implements Handler.Callback {
 
     public static class AnimData{
          public Object filePath;
-         public boolean isHasOwnTime;
-         public long animTime;
-    }
 
+    }
     public static class ProcessAnimThread{
 
         private HandlerThread mHandlerThread;
@@ -365,7 +352,8 @@ public class AnimationView extends View implements Handler.Callback {
             mProcessHandler = new Handler(mHandlerThread.getLooper(), new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-
+                    // 消息是在子线程 HandlerThread 里面被处理，所以这里的 handleMessage 在
+                    //子线程里被调用
                     switch (msg.what){
                         case PROCESS_DATA:{
                             AnimData animData = (AnimData) msg.obj;
@@ -374,6 +362,7 @@ public class AnimationView extends View implements Handler.Callback {
                                 Message finishMsg = Message.obtain();
                                 finishMsg.what = PROCESS_ANIM_FINISH;
                                 finishMsg.obj = bitmap;
+                                //消息处理完毕，使用主线程的 Handler 将消息发送到主线程
                                 mUiHandler.sendMessage(finishMsg);
                             }
                             break;
@@ -385,8 +374,6 @@ public class AnimationView extends View implements Handler.Callback {
 
         }
 
-
-
         public void processData(AnimData animData){
 
             if ( animData != null ){
@@ -397,13 +384,10 @@ public class AnimationView extends View implements Handler.Callback {
             }
 
         }
-
         public void clearAll(){
 
             mHandlerThread.quit();
             mHandlerThread = null;
         }
-
-
     }
 }
