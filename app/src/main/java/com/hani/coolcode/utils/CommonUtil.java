@@ -13,6 +13,7 @@ public class CommonUtil {
     private static int mScreenWidth;
     private static int mScreenHeight;
 
+    private static int mScreenDpi;
 
     public static void init(Activity activity){
 
@@ -21,6 +22,7 @@ public class CommonUtil {
         display.getMetrics(metrics);
         mScreenWidth = metrics.widthPixels;
         mScreenHeight = metrics.heightPixels;
+        mScreenDpi = metrics.densityDpi;
     }
 
     public static int getScreenWidth(){
@@ -29,5 +31,9 @@ public class CommonUtil {
 
     public static int getScreenHeight(){
         return mScreenHeight;
+    }
+
+    public static int getScreenDpi(){
+        return mScreenDpi;
     }
 }
