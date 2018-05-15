@@ -2,11 +2,14 @@ package com.hani.coolcode;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -15,7 +18,10 @@ import android.widget.Toast;
 import com.hani.coolcode.service.ScreenRecordService;
 import com.hani.coolcode.service.ScreenUtil;
 import com.hani.coolcode.utils.CommonUtil;
+import com.hani.coolcode.utils.PermissionUtils;
 import com.hani.coolcode.utils.ToastUtil;
+
+import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED;
 
 public class ScreenRecordActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,6 +37,7 @@ public class ScreenRecordActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.screen_record_activity);
 
         CommonUtil.init(this);
+        PermissionUtils.checkPermission(this);
         mTvStart = findViewById(R.id.tv_start);
         mTvStart.setOnClickListener(this);
 
@@ -68,6 +75,31 @@ public class ScreenRecordActivity extends AppCompatActivity implements View.OnCl
         bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
 
         ScreenUtil.addRecordListener(recordListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int temp : grantResults) {
+            if (temp == PERMISSION_DENIED) {
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("申请权限").setMessage("这些权限很重要").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ToastUtil.show(ScreenRecordActivity.this, "取消");
+                    }
+                }).setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse("package:" + ScreenRecordActivity.this.getPackageName()));
+                        ScreenRecordActivity.this.startActivity(intent);
+                    }
+                }).create();
+                dialog.show();
+                break;
+            }
+        }
     }
 
     private ScreenUtil.RecordListener recordListener = new ScreenUtil.RecordListener() {
