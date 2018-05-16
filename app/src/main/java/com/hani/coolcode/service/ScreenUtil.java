@@ -78,6 +78,7 @@ public class ScreenUtil {
                         Intent intent = mediaProjectionManager.createScreenCaptureIntent();
                         PackageManager packageManager = activity.getPackageManager();
                         if (packageManager.resolveActivity(intent,PackageManager.MATCH_DEFAULT_ONLY) != null){
+                            //存在录屏授权的Activity
                             activity.startActivityForResult(intent,requestCode);
                         }else {
                             Toast.makeText(activity,R.string.can_not_record_tip,Toast.LENGTH_SHORT).show();
